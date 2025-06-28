@@ -1,0 +1,145 @@
+import { ContactDto } from "src/types/dto/ContactDto";
+import { GroupContactsDto } from "src/types/dto/GroupContactsDto";
+
+export const FETCH_CONTACTS_ACTION = "FETCH_CONTACTS_ACTION";
+export const FETCH_CONTACTS_SUCCESS_ACTION = "FETCH_CONTACTS_SUCCESS_ACTION";
+export const FETCH_CONTACTS_ERROR_ACTION = "FETCH_CONTACTS_ERROR_ACTION";
+
+export const FETCH_CONTACT_ACTION = "FETCH_CONTACT_ACTION";
+export const FETCH_CONTACT_SUCCESS_ACTION = "FETCH_CONTACT_SUCCESS_ACTION";
+export const FETCH_CONTACT_ERROR_ACTION = "FETCH_CONTACT_ERROR_ACTION";
+
+export const FETCH_GROUPS_ACTION = "FETCH_GROUPS_ACTION";
+export const FETCH_GROUPS_SUCCESS_ACTION = "FETCH_GROUPS_SUCCESS_ACTION";
+export const FETCH_GROUPS_ERROR_ACTION = "FETCH_GROUPS_ERROR_ACTION";
+
+export const FETCH_GROUP_ACTION = "FETCH_GROUP_ACTION";
+export const FETCH_GROUP_SUCCESS_ACTION = "FETCH_GROUP_SUCCESS_ACTION";
+export const FETCH_GROUP_ERROR_ACTION = "FETCH_GROUP_ERROR_ACTION";
+
+export const FETCH_FAVORITES_ACTION = "FETCH_FAVORITES_ACTION";
+export const FETCH_FAVORITES_SUCCESS_ACTION = "FETCH_FAVORITES_SUCCESS_ACTION";
+export const FETCH_FAVORITES_ERROR_ACTION = "FETCH_FAVORITES_ERROR_ACTION";
+
+export const SET_CONTACTS_FILTER_ACTION = "SET_CONTACTS_FILTER_ACTION";
+export const CLEAR_CONTACTS_FILTER_ACTION = "CLEAR_CONTACTS_FILTER_ACTION";
+
+export const fetchContactsAction = () => {
+    return async (dispatch: any) => {
+        try {
+            dispatch({ type: FETCH_CONTACTS_ACTION });
+            const response = await fetch(
+                "https://mocki.io/v1/5457bc12-4212-43f1-8ca4-f41134fb56cb"
+            );
+            const contacts = (await response.json()) as ContactDto[];
+            dispatch({
+                type: FETCH_CONTACTS_SUCCESS_ACTION,
+                payload: { contacts },
+            });
+        } catch (e) {
+            const error = e as Error;
+            dispatch({
+                type: FETCH_CONTACTS_ERROR_ACTION,
+                payload: {
+                    error: error.message,
+                },
+            });
+        }
+    };
+};
+
+export const fetchContactAction = (id: string) => {
+    return async (dispatch: any) => {
+        try {
+            dispatch({ type: FETCH_CONTACT_ACTION });
+            const response = await fetch(
+                "https://mocki.io/v1/5457bc12-4212-43f1-8ca4-f41134fb56cb"
+            );
+            const data = (await response.json()) as ContactDto[];
+            const contact = data.find((item) => item.id === id);
+            dispatch({
+                type: FETCH_CONTACT_SUCCESS_ACTION,
+                payload: { contact },
+            });
+        } catch (e) {
+            const error = e as Error;
+            dispatch({
+                type: FETCH_CONTACT_ERROR_ACTION,
+                payload: {
+                    error: error.message,
+                },
+            });
+        }
+    };
+};
+
+export const fetchGroupsAction = () => {
+    return async (dispatch: any) => {
+        try {
+            dispatch({ type: FETCH_GROUPS_ACTION });
+            const response = await fetch(
+                "https://mocki.io/v1/fe7c703f-9521-420b-8f5b-9c69d73b79e2"
+            );
+            const groups = (await response.json()) as GroupContactsDto[];
+            dispatch({
+                type: FETCH_GROUPS_SUCCESS_ACTION,
+                payload: { groups },
+            });
+        } catch (e) {
+            const error = e as Error;
+            dispatch({
+                type: FETCH_GROUPS_ERROR_ACTION,
+                payload: {
+                    error: error.message,
+                },
+            });
+        }
+    };
+};
+
+export const fetchGroupAction = (id: string) => {
+    return async (dispatch: any) => {
+        try {
+            dispatch({ type: FETCH_GROUP_ACTION });
+            const response = await fetch(
+                "https://mocki.io/v1/fe7c703f-9521-420b-8f5b-9c69d73b79e2"
+            );
+            const data = (await response.json()) as GroupContactsDto[];
+            const group = data.find((item) => item.id === id);
+            dispatch({ type: FETCH_GROUP_SUCCESS_ACTION, payload: { group } });
+        } catch (e) {
+            const error = e as Error;
+            dispatch({
+                type: FETCH_GROUP_ERROR_ACTION,
+                payload: {
+                    error: error.message,
+                },
+            });
+        }
+    };
+};
+
+export const fetchFavoritesAction = () => {
+    return async (dispatch: any) => {
+        try {
+            dispatch({ type: FETCH_FAVORITES_ACTION });
+            const response = await fetch(
+                "https://mocki.io/v1/5457bc12-4212-43f1-8ca4-f41134fb56cb"
+            );
+            const data = (await response.json()) as ContactDto[];
+            const favorites = [data[0].id, data[1].id, data[2].id, data[3].id];
+            dispatch({
+                type: FETCH_FAVORITES_SUCCESS_ACTION,
+                payload: { favorites },
+            });
+        } catch (e) {
+            const error = e as Error;
+            dispatch({
+                type: FETCH_FAVORITES_ERROR_ACTION,
+                payload: {
+                    error: error.message,
+                },
+            });
+        }
+    };
+};
