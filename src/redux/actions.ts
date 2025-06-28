@@ -1,3 +1,6 @@
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "./store";
+import { ProjectActions } from "./types";
 import { ContactDto } from "src/types/dto/ContactDto";
 import { GroupContactsDto } from "src/types/dto/GroupContactsDto";
 
@@ -24,8 +27,13 @@ export const FETCH_FAVORITES_ERROR_ACTION = "FETCH_FAVORITES_ERROR_ACTION";
 export const SET_CONTACTS_FILTER_ACTION = "SET_CONTACTS_FILTER_ACTION";
 export const CLEAR_CONTACTS_FILTER_ACTION = "CLEAR_CONTACTS_FILTER_ACTION";
 
-export const fetchContactsAction = () => {
-    return async (dispatch: any) => {
+export const fetchContactsAction = (): ThunkAction<
+    void,
+    RootState,
+    void,
+    ProjectActions
+> => {
+    return async (dispatch) => {
         try {
             dispatch({ type: FETCH_CONTACTS_ACTION });
             const response = await fetch(
@@ -48,8 +56,10 @@ export const fetchContactsAction = () => {
     };
 };
 
-export const fetchContactAction = (id: string) => {
-    return async (dispatch: any) => {
+export const fetchContactAction = (
+    id: string
+): ThunkAction<void, RootState, void, ProjectActions> => {
+    return async (dispatch) => {
         try {
             dispatch({ type: FETCH_CONTACT_ACTION });
             const response = await fetch(
@@ -73,8 +83,13 @@ export const fetchContactAction = (id: string) => {
     };
 };
 
-export const fetchGroupsAction = () => {
-    return async (dispatch: any) => {
+export const fetchGroupsAction = (): ThunkAction<
+    void,
+    RootState,
+    void,
+    ProjectActions
+> => {
+    return async (dispatch) => {
         try {
             dispatch({ type: FETCH_GROUPS_ACTION });
             const response = await fetch(
@@ -97,8 +112,10 @@ export const fetchGroupsAction = () => {
     };
 };
 
-export const fetchGroupAction = (id: string) => {
-    return async (dispatch: any) => {
+export const fetchGroupAction = (
+    id: string
+): ThunkAction<void, RootState, void, ProjectActions> => {
+    return async (dispatch) => {
         try {
             dispatch({ type: FETCH_GROUP_ACTION });
             const response = await fetch(
@@ -119,8 +136,13 @@ export const fetchGroupAction = (id: string) => {
     };
 };
 
-export const fetchFavoritesAction = () => {
-    return async (dispatch: any) => {
+export const fetchFavoritesAction = (): ThunkAction<
+    void,
+    RootState,
+    void,
+    ProjectActions
+> => {
+    return async (dispatch) => {
         try {
             dispatch({ type: FETCH_FAVORITES_ACTION });
             const response = await fetch(
