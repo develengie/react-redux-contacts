@@ -1,24 +1,42 @@
-import React, {memo, useEffect, useState} from 'react';
-import {CommonPageProps} from './types';
-import {Col, Row} from 'react-bootstrap';
-import {ContactCard} from 'src/components/ContactCard';
-import {ContactDto} from 'src/types/dto/ContactDto';
+import { useEffect } from "react";
+import { Col, Row } from "react-bootstrap";
+import { ContactCard } from "src/components/ContactCard";
+import Loader from "src/components/Loader";
+import ErrorMessage from "src/components/ErrorMessage";
+import { useAppDispatch, useAppSelector } from "src/redux/hooks";
+import { fetchContactsAction, fetchFavoritesAction } from "src/redux/actions";
 
-export const FavoritListPage = memo<CommonPageProps>(({
-  favoriteContactsState,
-  contactsState
-}) => {
-  const [contacts, setContacts] = useState<ContactDto[]>([])
-  useEffect(() => {
-    setContacts(() => contactsState[0].filter(({id}) => favoriteContactsState[0].includes(id)));
-  }, [contactsState, favoriteContactsState])
-  return (
-    <Row xxl={4} className="g-4">
-      {contacts.map((contact) => (
-        <Col key={contact.id}>
-          <ContactCard contact={contact} withLink />
-        </Col>
-      ))}
-    </Row>
-  );
-})
+export const FavoritListPage = () => {
+    const dispatch = useAppDispatch();
+    const {
+        favorites,
+        loading: favoritesLoading,
+        error: favoritesError,
+    } = useAppSelector((state) => state.favoritesReducer);
+    const {
+        contacts,
+        loading: contactsLoading,
+        error: contactsError,
+    } = useAppSelector((state) => state.contactsReducer);
+    const favoritesContacts = contacts.filter((contact) =>
+        favorites.includes(contact.id)
+    );
+
+    useEffect(() => {
+        dispatch(fetchFavoritesAction());
+        dispatch(fetchContactsAction());
+    }, [dispatch]);
+
+    return (
+        <Row xxl={4} className="g-4">
+            {(favoritesLoading || contactsLoading) && <Loader />}
+            {favoritesError && <ErrorMessage error={favoritesError} />}
+            {contactsError && <ErrorMessage error={contactsError} />}
+            {favoritesContacts.map((contact) => (
+                <Col key={contact.id}>
+                    <ContactCard contact={contact} withLink />
+                </Col>
+            ))}
+        </Row>
+    );
+};
