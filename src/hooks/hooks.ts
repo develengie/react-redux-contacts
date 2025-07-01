@@ -5,8 +5,8 @@ import {
     useStore,
 } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "./store";
-import { ProjectActions } from "./types";
+import { RootState } from "../store";
+import { ProjectActions } from "../store/types";
 
 export const useAppDispatch = useDispatch<
     ThunkDispatch<RootState, void, ProjectActions>

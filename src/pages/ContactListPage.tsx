@@ -5,8 +5,8 @@ import { FilterForm, FilterFormValues } from "src/components/FilterForm";
 import { ContactDto } from "src/types/dto/ContactDto";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
-import { useAppDispatch, useAppSelector } from "src/redux/hooks";
-import { fetchContactsAction, fetchGroupsAction } from "src/redux/actions";
+import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
+import { fetchContactsAction, fetchGroupsAction } from "src/store/actions";
 
 export const ContactListPage = () => {
     const dispatch = useAppDispatch();
