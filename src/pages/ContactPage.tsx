@@ -4,17 +4,18 @@ import { useParams } from "react-router-dom";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
 import { useAppDispatch, useAppSelector } from "src/redux/hooks";
-import { fetchContactAction } from "src/redux/actions";
+import { fetchContactsAction } from "src/redux/actions";
 
 export const ContactPage: FC = () => {
     const dispatch = useAppDispatch();
-    const { contact, loading } = useAppSelector(
-        (state) => state.contactReducer
+    const { contacts, loading } = useAppSelector(
+        (state) => state.contactsReducer
     );
     const { contactId } = useParams<{ contactId: string }>();
+    const currentContact = contacts.find((contact) => contact.id === contactId);
 
     useEffect(() => {
-        dispatch(fetchContactAction(contactId!));
+        dispatch(fetchContactsAction());
     }, [dispatch]);
 
     if (loading) {
@@ -24,7 +25,7 @@ export const ContactPage: FC = () => {
     return (
         <Row xxl={3}>
             <Col className={"mx-auto"}>
-                {contact && <ContactCard contact={contact} />}
+                {currentContact && <ContactCard contact={currentContact} />}
             </Col>
         </Row>
     );
