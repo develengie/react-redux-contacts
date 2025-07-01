@@ -6,38 +6,41 @@ import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
 import { useAppDispatch, useAppSelector } from "src/redux/hooks";
-import { fetchContactsAction, fetchGroupAction } from "src/redux/actions";
+import { fetchContactsAction, fetchGroupsAction } from "src/redux/actions";
 
 export const GroupPage = () => {
     const dispatch = useAppDispatch();
-    const { group, loading: groupLoading } = useAppSelector(
-        (state) => state.groupReducer
+    const { groups, loading: groupsLoading } = useAppSelector(
+        (state) => state.groupsReducer
     );
     const { contacts, loading: contactsLoading } = useAppSelector(
         (state) => state.contactsReducer
     );
     const { groupId } = useParams<{ groupId: string }>();
+    const currentGroup = groups.find((group) => group.id === groupId);
     const groupContacts = contacts.filter((contact) =>
-        group?.contactIds.includes(contact.id)
+        currentGroup?.contactIds.includes(contact.id)
     );
 
     useEffect(() => {
-        dispatch(fetchGroupAction(groupId!));
+        dispatch(fetchGroupsAction());
         dispatch(fetchContactsAction());
     }, [dispatch]);
 
-    if (groupLoading) {
+    if (groupsLoading) {
         return <Loader />;
     }
 
     return (
         <Row className="g-4">
-            {group && (
+            {currentGroup && (
                 <>
                     <Col xxl={12}>
                         <Row xxl={3}>
                             <Col className="mx-auto">
-                                <GroupContactsCard groupContacts={group} />
+                                <GroupContactsCard
+                                    groupContacts={currentGroup}
+                                />
                             </Col>
                         </Row>
                     </Col>
