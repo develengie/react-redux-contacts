@@ -3,8 +3,8 @@ import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
-import { useAppDispatch, useAppSelector } from "src/redux/hooks";
-import { fetchContactsAction } from "src/redux/actions";
+import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
+import { fetchContactsAction } from "src/store/actions";
 
 export const ContactPage: FC = () => {
     const dispatch = useAppDispatch();
