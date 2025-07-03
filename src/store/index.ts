@@ -1,6 +1,5 @@
-import { configureStore, Tuple } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import { thunk } from "redux-thunk";
 import { contactsReducer, favoritesReducer, groupsReducer } from "./slices";
 import {
     contactsMiddleware,
@@ -17,7 +16,12 @@ const rootReducer = combineReducers({
 export const store = configureStore({
     reducer: rootReducer,
     devTools: true,
-    middleware: () => new Tuple(contactsMiddleware, groupsMiddleware, thunk),
+    middleware(getDefaultMiddleware) {
+        return getDefaultMiddleware().concat([
+            contactsMiddleware,
+            groupsMiddleware,
+        ]);
+    },
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
