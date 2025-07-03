@@ -1,7 +1,7 @@
 import { configureStore, Tuple } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { thunk } from "redux-thunk";
-import { contactsReducer, favoritesReducer, groupsReducer } from "./reducers";
+import { contactsReducer, favoritesReducer, groupsReducer } from "./slices";
 
 const rootReducer = combineReducers({
     contactsReducer,
