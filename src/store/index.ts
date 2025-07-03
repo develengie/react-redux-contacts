@@ -1,6 +1,6 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { configureStore, Tuple } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
 import { thunk } from "redux-thunk";
-import { composeWithDevTools } from "@redux-devtools/extension";
 import { contactsReducer, favoritesReducer, groupsReducer } from "./reducers";
 
 const rootReducer = combineReducers({
@@ -9,9 +9,10 @@ const rootReducer = combineReducers({
     favoritesReducer,
 });
 
-export const store = createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(thunk))
-);
+export const store = configureStore({
+    reducer: rootReducer,
+    devTools: true,
+    middleware: () => new Tuple(thunk),
+});
 
 export type RootState = ReturnType<typeof rootReducer>;
