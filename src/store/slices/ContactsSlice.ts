@@ -1,38 +1,26 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ContactDto } from "src/types/dto/ContactDto";
 
-interface ContactsState {
-    loading: boolean;
-    contacts: ContactDto[];
-    error: string;
-}
-
-const initialState: ContactsState = {
-    loading: false,
-    contacts: [],
-    error: "",
-};
-
-const contactsSlice = createSlice({
-    name: "contacts",
-    initialState,
-    reducers: {
-        fetchContacts(state) {
-            state.loading = true;
-        },
-        fetchContactsSuccess(state, action: PayloadAction<ContactDto[]>) {
-            state.loading = false;
-            state.contacts = action.payload;
-            state.error = "";
-        },
-        fetchContactsError(state, action: PayloadAction<string>) {
-            state.loading = false;
-            state.error = action.payload;
-        },
+const contactsApiSlice = createApi({
+    reducerPath: "contactsApi",
+    baseQuery: fetchBaseQuery({
+        baseUrl: "https://mocki.io/v1/",
+    }),
+    endpoints(builder) {
+        return {
+            getContacts: builder.query<ContactDto[], void>({
+                query: () => ({
+                    url: "a8772f55-89c4-4a24-8b89-976608ef2783",
+                }),
+            }),
+        };
     },
 });
 
-export const { fetchContacts, fetchContactsSuccess, fetchContactsError } =
-    contactsSlice.actions;
+export const { useGetContactsQuery } = contactsApiSlice;
 
-export default contactsSlice.reducer;
+export const contactsMiddleware = contactsApiSlice.middleware;
+
+export const contactsReducerPath = contactsApiSlice.reducerPath;
+
+export default contactsApiSlice.reducer;
