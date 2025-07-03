@@ -1,6 +1,6 @@
+import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from ".";
-import { ProjectActions } from "./types";
 import { ContactDto } from "src/types/dto/ContactDto";
 import { GroupContactsDto } from "src/types/dto/GroupContactsDto";
 import {
@@ -23,7 +23,7 @@ export const fetchContactsAction = (): ThunkAction<
     void,
     RootState,
     void,
-    ProjectActions
+    AnyAction
 > => {
     return async (dispatch) => {
         try {
@@ -44,7 +44,7 @@ export const fetchGroupsAction = (): ThunkAction<
     void,
     RootState,
     void,
-    ProjectActions
+    AnyAction
 > => {
     return async (dispatch) => {
         try {
@@ -65,7 +65,7 @@ export const fetchFavoritesAction = (): ThunkAction<
     void,
     RootState,
     void,
-    ProjectActions
+    AnyAction
 > => {
     return async (dispatch) => {
         try {
