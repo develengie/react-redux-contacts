@@ -1,24 +1,17 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
-import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
-import { fetchContactsAction } from "src/store/actions";
+import { useGetContactsQuery } from "src/store/slices/ContactsSlice";
 
 export const ContactPage: FC = () => {
-    const dispatch = useAppDispatch();
-    const { contacts, loading } = useAppSelector(
-        (state) => state.contactsReducer
-    );
+    const { data, isLoading } = useGetContactsQuery();
     const { contactId } = useParams<{ contactId: string }>();
-    const currentContact = contacts.find((contact) => contact.id === contactId);
+    const currentContact =
+        data && data.find((contact) => contact.id === contactId);
 
-    useEffect(() => {
-        dispatch(fetchContactsAction());
-    }, [dispatch]);
-
-    if (loading) {
+    if (isLoading) {
         return <Loader />;
     }
 
