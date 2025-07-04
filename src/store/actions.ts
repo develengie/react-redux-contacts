@@ -6,7 +6,7 @@ import {
     fetchFavorites,
     fetchFavoritesError,
     fetchFavoritesSuccess,
-} from "./slices/FavoritesSlice";
+} from "./favorites";
 
 export const fetchFavoritesAction = (): ThunkAction<
     void,

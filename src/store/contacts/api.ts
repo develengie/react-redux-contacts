@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ContactDto } from "src/types/dto/ContactDto";
 
-const contactsApiSlice = createApi({
+export const contactsApiSlice = createApi({
     reducerPath: "contactsApi",
     baseQuery: fetchBaseQuery({
         baseUrl: "https://mocki.io/v1/",
@@ -16,11 +16,3 @@ const contactsApiSlice = createApi({
         };
     },
 });
-
-export const { useGetContactsQuery } = contactsApiSlice;
-
-export const contactsMiddleware = contactsApiSlice.middleware;
-
-export const contactsReducerPath = contactsApiSlice.reducerPath;
-
-export default contactsApiSlice.reducer;
