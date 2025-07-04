@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
-import { useGetContactsQuery } from "src/store/slices/ContactsSlice";
+import { useGetContactsQuery } from "src/store/contacts";
 
 export const ContactPage: FC = () => {
     const { data, isLoading } = useGetContactsQuery();

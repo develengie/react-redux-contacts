@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import { contactsReducer, favoritesReducer, groupsReducer } from "./slices";
-import {
+import contactsReducer, {
     contactsMiddleware,
     contactsReducerPath,
-} from "./slices/ContactsSlice";
-import { groupsMiddleware, groupsReducerPath } from "./slices/GroupsSlice";
+} from "./contacts";
+import groupsReducer, { groupsMiddleware, groupsReducerPath } from "./groups";
+import favoritesReducer from "./favorites";
 
 const rootReducer = combineReducers({
     [contactsReducerPath]: contactsReducer,

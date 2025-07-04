@@ -2,7 +2,7 @@ import { Col, Row } from "react-bootstrap";
 import { GroupContactsCard } from "src/components/GroupContactsCard";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
-import { useGetGroupsQuery } from "src/store/slices/GroupsSlice";
+import { useGetGroupsQuery } from "src/store/groups";
 
 export const GroupListPage = () => {
     const { data, isLoading, isError } = useGetGroupsQuery();

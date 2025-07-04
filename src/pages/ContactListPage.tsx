@@ -5,8 +5,8 @@ import { FilterForm, FilterFormValues } from "src/components/FilterForm";
 import { ContactDto } from "src/types/dto/ContactDto";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
-import { useGetContactsQuery } from "src/store/slices/ContactsSlice";
-import { useGetGroupsQuery } from "src/store/slices/GroupsSlice";
+import { useGetContactsQuery } from "src/store/contacts";
+import { useGetGroupsQuery } from "src/store/groups";
 
 export const ContactListPage = () => {
     const {

@@ -4,7 +4,7 @@ import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
 import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
-import { useGetContactsQuery } from "src/store/slices/ContactsSlice";
+import { useGetContactsQuery } from "src/store/contacts";
 import { fetchFavoritesAction } from "src/store/actions";
 
 export const FavoritListPage = () => {

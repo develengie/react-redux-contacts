@@ -13,7 +13,7 @@ const initialState: FavoritesState = {
     error: "",
 };
 
-const favoritesSlice = createSlice({
+export const favoritesSlice = createSlice({
     name: "favorites",
     initialState,
     reducers: {
@@ -34,8 +34,3 @@ const favoritesSlice = createSlice({
         },
     },
 });
-
-export const { fetchFavorites, fetchFavoritesSuccess, fetchFavoritesError } =
-    favoritesSlice.actions;
-
-export default favoritesSlice.reducer;

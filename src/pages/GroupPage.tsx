@@ -4,8 +4,8 @@ import { GroupContactsCard } from "src/components/GroupContactsCard";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
-import { useGetGroupsQuery } from "src/store/slices/GroupsSlice";
-import { useGetContactsQuery } from "src/store/slices/ContactsSlice";
+import { useGetGroupsQuery } from "src/store/groups";
+import { useGetContactsQuery } from "src/store/contacts";
 
 export const GroupPage = () => {
     const { data: groups, isLoading: groupsLoading } = useGetGroupsQuery();
