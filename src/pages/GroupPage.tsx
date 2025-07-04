@@ -1,31 +1,23 @@
-import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { GroupContactsCard } from "src/components/GroupContactsCard";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
-import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
-import { fetchContactsAction, fetchGroupsAction } from "src/store/actions";
+import { useGetGroupsQuery } from "src/store/slices/GroupsSlice";
+import { useGetContactsQuery } from "src/store/slices/ContactsSlice";
 
 export const GroupPage = () => {
-    const dispatch = useAppDispatch();
-    const { groups, loading: groupsLoading } = useAppSelector(
-        (state) => state.groupsReducer
-    );
-    const { contacts, loading: contactsLoading } = useAppSelector(
-        (state) => state.contactsReducer
-    );
+    const { data: groups, isLoading: groupsLoading } = useGetGroupsQuery();
+    const { data: contacts, isLoading: contactsLoading } =
+        useGetContactsQuery();
     const { groupId } = useParams<{ groupId: string }>();
-    const currentGroup = groups.find((group) => group.id === groupId);
-    const groupContacts = contacts.filter((contact) =>
-        currentGroup?.contactIds.includes(contact.id)
-    );
-
-    useEffect(() => {
-        dispatch(fetchGroupsAction());
-        dispatch(fetchContactsAction());
-    }, [dispatch]);
+    const currentGroup = groups && groups.find((group) => group.id === groupId);
+    const groupContacts =
+        contacts &&
+        contacts.filter((contact) =>
+            currentGroup?.contactIds.includes(contact.id)
+        );
 
     if (groupsLoading) {
         return <Loader />;
@@ -46,10 +38,10 @@ export const GroupPage = () => {
                     </Col>
                     {contactsLoading ? (
                         <Loader />
-                    ) : groupContacts.length > 0 ? (
+                    ) : groupContacts!.length > 0 ? (
                         <Col>
                             <Row xxl={4} className="g-4">
-                                {groupContacts.map((contact) => (
+                                {groupContacts!.map((contact) => (
                                     <Col key={contact.id}>
                                         <ContactCard
                                             contact={contact}
@@ -60,7 +52,7 @@ export const GroupPage = () => {
                             </Row>
                         </Col>
                     ) : (
-                        <ErrorMessage error="Контакты отсутствуют!" />
+                        <ErrorMessage error="Something went wrong!" />
                     )}
                 </>
             )}
