@@ -1,16 +1,18 @@
+import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 import { GroupContactsCard } from "src/components/GroupContactsCard";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
-import { useGetGroupsQuery } from "src/store/groups";
-import { useGetContactsQuery } from "src/store/contacts";
+import { groupsStore, contactsStore } from "../store";
 
-export const GroupPage = () => {
-    const { data: groups, isLoading: groupsLoading } = useGetGroupsQuery();
-    const { data: contacts, isLoading: contactsLoading } =
-        useGetContactsQuery();
+export const GroupPage = observer(() => {
+    const groups = groupsStore.groups;
+    const groupsLoading = groupsStore.loading;
+    const contacts = contactsStore.contacts;
+    const contactsLoading = contactsStore.loading;
     const { groupId } = useParams<{ groupId: string }>();
     const currentGroup = groups && groups.find((group) => group.id === groupId);
     const groupContacts =
@@ -18,6 +20,11 @@ export const GroupPage = () => {
         contacts.filter((contact) =>
             currentGroup?.contactIds.includes(contact.id)
         );
+
+    useEffect(() => {
+        groupsStore.getGroups();
+        contactsStore.getContacts();
+    }, []);
 
     if (groupsLoading) {
         return <Loader />;
@@ -58,4 +65,4 @@ export const GroupPage = () => {
             )}
         </Row>
     );
-};
+});

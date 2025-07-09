@@ -1,20 +1,18 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import { observer } from "mobx-react-lite";
 import { ContactCard } from "src/components/ContactCard";
 import { FilterForm, FilterFormValues } from "src/components/FilterForm";
 import { ContactDto } from "src/types/dto/ContactDto";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
-import { useGetContactsQuery } from "src/store/contacts";
-import { useGetGroupsQuery } from "src/store/groups";
+import { contactsStore, groupsStore } from "../store";
 
-export const ContactListPage = () => {
-    const {
-        data: contacts,
-        isLoading: contactsLoading,
-        isError: contactsError,
-    } = useGetContactsQuery();
-    const { data: groups } = useGetGroupsQuery();
+export const ContactListPage = observer(() => {
+    const contacts = contactsStore.contacts;
+    const contactsLoading = contactsStore.loading;
+    const contactsError = contactsStore.error;
+    const groups = groupsStore.groups;
     const [filter, setFilter] = useState<Partial<FilterFormValues>>({});
 
     const filteredContacts = useMemo(() => {
@@ -42,6 +40,11 @@ export const ContactListPage = () => {
         return findContacts;
     }, [filter, contacts, groups]);
 
+    useEffect(() => {
+        contactsStore.getContacts();
+        groupsStore.getGroups();
+    }, []);
+
     return (
         <Row xxl={1}>
             <Col className="mb-3">
@@ -65,4 +68,4 @@ export const ContactListPage = () => {
             </Col>
         </Row>
     );
-};
+});
