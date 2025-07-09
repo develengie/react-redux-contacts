@@ -1,17 +1,23 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
-import { useGetContactsQuery } from "src/store/contacts";
+import { contactsStore } from "../store";
 
-export const ContactPage: FC = () => {
-    const { data, isLoading } = useGetContactsQuery();
+export const ContactPage: FC = observer(() => {
+    const contacts = contactsStore.contacts;
+    const contactsLoading = contactsStore.loading;
     const { contactId } = useParams<{ contactId: string }>();
     const currentContact =
-        data && data.find((contact) => contact.id === contactId);
+        contacts && contacts.find((contact) => contact.id === contactId);
 
-    if (isLoading) {
+    useEffect(() => {
+        contactsStore.getContacts();
+    }, []);
+
+    if (contactsLoading) {
         return <Loader />;
     }
 
@@ -22,4 +28,4 @@ export const ContactPage: FC = () => {
             </Col>
         </Row>
     );
-};
+});

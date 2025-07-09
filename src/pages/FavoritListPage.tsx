@@ -1,31 +1,26 @@
 import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
+import { observer } from "mobx-react-lite";
 import { ContactCard } from "src/components/ContactCard";
 import Loader from "src/components/Loader";
 import ErrorMessage from "src/components/ErrorMessage";
-import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
-import { useGetContactsQuery } from "src/store/contacts";
-import { fetchFavoritesAction } from "src/store/actions";
+import { contactsStore, favoritesStore } from "../store";
 
-export const FavoritListPage = () => {
-    const dispatch = useAppDispatch();
-    const {
-        favorites,
-        loading: favoritesLoading,
-        error: favoritesError,
-    } = useAppSelector((state) => state.favoritesReducer);
-    const {
-        data: contacts,
-        isLoading: contactsLoading,
-        isError: contactsError,
-    } = useGetContactsQuery();
+export const FavoritListPage = observer(() => {
+    const favorites = favoritesStore.favorites;
+    const favoritesLoading = favoritesStore.loading;
+    const favoritesError = favoritesStore.error;
+    const contacts = contactsStore.contacts;
+    const contactsLoading = contactsStore.loading;
+    const contactsError = contactsStore.error;
     const favoritesContacts =
         contacts &&
         contacts.filter((contact) => favorites.includes(contact.id));
 
     useEffect(() => {
-        dispatch(fetchFavoritesAction());
-    }, [dispatch]);
+        favoritesStore.getFavorites();
+        contactsStore.getContacts();
+    }, []);
 
     return (
         <Row xxl={4} className="g-4">
@@ -40,4 +35,4 @@ export const FavoritListPage = () => {
                 ))}
         </Row>
     );
-};
+});
